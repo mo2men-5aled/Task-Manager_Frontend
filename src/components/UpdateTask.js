@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import http from "../api/connection";
 import AddTask from "./AddTask";
+import GetAll from "./Task-List";
 
 const TaskUpdate = (taskID) => {
   const [task, setTask] = useState("");
@@ -28,7 +29,6 @@ const TaskUpdate = (taskID) => {
       completed: status,
       parentID: parentID,
     });
-    taskID.history.push("/");
   };
 
   return (
@@ -86,6 +86,7 @@ const TaskUpdate = (taskID) => {
           </button>
         </form>
       </div>
+      <GetAll parentID={parentID} />
     </div>
   );
 };

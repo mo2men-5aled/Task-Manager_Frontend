@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import http from "../api/connection";
 import { Link } from "react-router-dom";
-import AddTask from "./AddTask";
 import { Popup } from "semantic-ui-react";
 import deleteTask from "./deleteTask";
 
@@ -11,7 +10,7 @@ const mark = (task) => {
   }
 };
 
-const GetAll = () => {
+const GetAll = (props) => {
   const [tasks, setTasks] = useState([]);
   const taskNameRef = useRef();
   useEffect(() => {
@@ -22,7 +21,6 @@ const GetAll = () => {
 
   return (
     <div>
-      <AddTask />
       {tasks.map((task) => {
         let popupname = <span>{task.name}</span>;
         taskNameRef.current = task.description ? (
@@ -34,29 +32,30 @@ const GetAll = () => {
         ) : (
           popupname
         );
+        if (task.parentID === props.parentID) {
+          return (
+            <div className="ui segment">
+              <Link to={`/${task._id}`} className="content">
+                <div className="header">
+                  <span>{mark(task)}</span>
+                  {taskNameRef.current}
 
-        return (
-          <div className="ui segment">
-            <Link to={`/${task._id}`} className="content">
-              <div className="header">
-                <span>{mark(task)}</span>
-                {taskNameRef.current}
-
-                <div style={{ textAlign: "end" }}>
-                  <Link
-                    to={`/`}
-                    className="ui basic blue button"
-                    onClick={() => {
-                      deleteTask(task._id);
-                    }}
-                  >
-                    Delete
-                  </Link>
+                  <div style={{ textAlign: "end" }}>
+                    <Link
+                      to={`/${task._id}`}
+                      className="ui basic blue button"
+                      onClick={() => {
+                        deleteTask(task._id);
+                      }}
+                    >
+                      Delete
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          </div>
-        );
+              </Link>
+            </div>
+          );
+        }
       })}
     </div>
   );

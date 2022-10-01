@@ -8,21 +8,24 @@ const AddTask = (props) => {
   const [Name, setName] = useState("");
   const [status, setStatus] = useState(false);
   const [description, setDesc] = useState("");
+  const [parentID, setParentID] = useState(props.parentID);
 
   const fromValues = {
     name: Name,
     completed: status,
     description: description,
-    parentID: props.parentID,
+    parentID: parentID,
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     NewTask(fromValues);
     setName("");
-    setStatus("");
+    setStatus(false);
     setDesc("");
+    setParentID(parentID);
   };
+  console.log(status);
 
   const isValed = Name === "";
   const [touched, setTouched] = useState(false);
