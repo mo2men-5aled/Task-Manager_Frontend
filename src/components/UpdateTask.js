@@ -34,6 +34,7 @@ const TaskUpdate = (taskID) => {
 
   return (
     <div>
+      <AddTask parentID={parentID} />
       <div className="ui segment" style={{ marginTop: "20px" }}>
         <div class="ui top attached label">Edit Task "{task.name}"</div>
         <form
@@ -87,7 +88,6 @@ const TaskUpdate = (taskID) => {
           </button>
         </form>
       </div>
-      <AddTask parentID={parentID} />
       <GetAll parentID={taskID.match.params.id} />
     </div>
   );

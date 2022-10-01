@@ -11,6 +11,11 @@ const AddTask = (props) => {
   const [status, setStatus] = useState(false);
   const [description, setDesc] = useState("");
   const [parentID, setParentID] = useState(props.parentID);
+  const [showForm, setShowForm] = useState(false);
+
+  const ShowForm = () => {
+    setShowForm(!showForm);
+  };
 
   const fromValues = {
     name: Name,
@@ -33,66 +38,85 @@ const AddTask = (props) => {
   const [touched, setTouched] = useState(false);
 
   return (
-    <div className="ui segment" style={{ marginTop: "20px" }}>
-      <div class="ui top attached label">Craete New Task</div>
-      <form
-        className="ui form"
-        onSubmit={handleSubmit}
-        style={{
-          padding: "30px",
+    <div>
+      <button
+        style={{ marginTop: "20px" }}
+        className="fluid ui primary button"
+        onClick={() => {
+          ShowForm();
         }}
       >
-        <div className="field">
-          <label>Name</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            value={Name}
-            onChange={(event) => setName(event.target.value)}
-            onBlur={() => {
-              if (isValed) {
-              } else {
-                setTouched(true);
-              }
-            }}
-          />
-        </div>
-        <div className="field">
-          <label>Description</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            value={description}
-            onChange={(event) => setDesc(event.target.value)}
-          />
-        </div>
-        <div className="inline field">
-          <input
-            className="ui checked checkbox"
-            id="status"
-            name="status"
-            type="checkbox"
-            checked={status ? "checked" : ""}
-            value={status}
-            onChange={(event) => {
-              setStatus(event.target.checked);
-              if (props.parentID) {
-                setParentID(props.parentID);
-              }
-            }}
-          />
-          <label>Completed</label>
-        </div>
-
-        <button
-          className={`ui basic red ${touched ? "" : "disabled"} button`}
-          type="submit"
+        Create Task
+      </button>
+      {showForm && (
+        <div
+          className="ui segment"
+          style={{ marginTop: "20px" }}
+          visible={showForm}
         >
-          Submit
-        </button>
-      </form>
+          <div>
+            <div class="ui top attached label">Craete New Task</div>
+            <form
+              className="ui form"
+              onSubmit={handleSubmit}
+              style={{
+                padding: "30px",
+              }}
+            >
+              <div className="field">
+                <label>Name</label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={Name}
+                  onChange={(event) => setName(event.target.value)}
+                  onBlur={() => {
+                    if (isValed) {
+                    } else {
+                      setTouched(true);
+                    }
+                  }}
+                />
+              </div>
+              <div className="field">
+                <label>Description</label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={description}
+                  onChange={(event) => setDesc(event.target.value)}
+                />
+              </div>
+              <div className="inline field">
+                <input
+                  className="ui checked checkbox"
+                  id="status"
+                  name="status"
+                  type="checkbox"
+                  checked={status ? "checked" : ""}
+                  value={status}
+                  onChange={(event) => {
+                    setStatus(event.target.checked);
+                    if (props.parentID) {
+                      setParentID(props.parentID);
+                    }
+                  }}
+                />
+                <label>Completed</label>
+              </div>
+
+              <button
+                className={`ui basic red ${touched ? "" : "disabled"} button`}
+                type="submit"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

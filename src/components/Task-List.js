@@ -23,17 +23,14 @@ const GetAll = (props) => {
 
   useEffect(() => {
     getData(setTasks);
-  }, []);
+  }, [1]);
 
   EventEmitter.subscribe(["submited"], () => {
     getData(setTasks);
   });
 
   return (
-    <div>
-      <button className="ui primary button" onClick={() => getData(setTasks)}>
-        RE_RENDER
-      </button>
+    <div style={{ marginTop: "20px" }}>
       {tasks.map((task) => {
         let popupname = <span>{task.name}</span>;
         taskNameRef.current = task.description ? (
