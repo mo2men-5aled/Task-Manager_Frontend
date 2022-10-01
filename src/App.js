@@ -4,10 +4,13 @@ import TaskUpdate from "./components/UpdateTask";
 import history from "./history/history";
 import AddTask from "./components/AddTask";
 function App(id) {
+  const tst = () => {
+    return <div>TESSSSSSSSSSSSSSSST</div>;
+  };
   return (
     <div className="ui container">
       <Router history={history}>
-        <Route exact path="/" component={AddTask} />
+        <Route exact path="/" component={AddTask} test={tst} />
         <Route exact path="/" component={GetAll} />
         <Route exact path="/:id" component={TaskUpdate} />
       </Router>

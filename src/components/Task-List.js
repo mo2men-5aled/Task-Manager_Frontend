@@ -25,7 +25,7 @@ const GetAll = (props) => {
     getData(setTasks);
   }, []);
 
-  EventEmitter.subscribe("submited", () => {
+  EventEmitter.subscribe(["submited"], () => {
     getData(setTasks);
   });
 
@@ -62,6 +62,7 @@ const GetAll = (props) => {
                       className="ui basic blue button"
                       onClick={() => {
                         deleteTask(task._id);
+                        EventEmitter.emit("submited");
                       }}
                     >
                       Delete
