@@ -3,6 +3,13 @@ import http from "../api/connection";
 import { Link } from "react-router-dom";
 import { Popup } from "semantic-ui-react";
 import deleteTask from "./deleteTask";
+import EventEmitter from "reactjs-eventemitter";
+
+const getData = async (setTasks) => {
+  http.get().then((response) => {
+    setTasks(response.data.tasks);
+  });
+};
 
 const mark = (task) => {
   if (task.completed) {
@@ -13,14 +20,20 @@ const mark = (task) => {
 const GetAll = (props) => {
   const [tasks, setTasks] = useState([]);
   const taskNameRef = useRef();
+
   useEffect(() => {
-    http.get().then((response) => {
-      setTasks(response.data.tasks);
-    });
-  }, [tasks]);
+    getData(setTasks);
+  }, []);
+
+  EventEmitter.subscribe("submited", () => {
+    getData(setTasks);
+  });
 
   return (
     <div>
+      <button className="ui primary button" onClick={() => getData(setTasks)}>
+        RE_RENDER
+      </button>
       {tasks.map((task) => {
         let popupname = <span>{task.name}</span>;
         taskNameRef.current = task.description ? (

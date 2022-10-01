@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import http from "../api/connection";
+import EventEmitter from "reactjs-eventemitter";
+
 const NewTask = (data) => {
   http.post("/", data);
 };
@@ -23,6 +25,8 @@ const AddTask = (props) => {
     setName("");
     setStatus(false);
     setDesc("");
+
+    EventEmitter.emit("submited");
   };
 
   const isValed = Name === "";
