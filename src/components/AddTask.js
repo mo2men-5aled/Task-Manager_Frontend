@@ -21,11 +21,10 @@ const AddTask = (props) => {
     event.preventDefault();
     NewTask(fromValues);
     setName("");
-    setStatus("");
+    setStatus(false);
     setDesc("");
-    console.log(props.parentID);
   };
-  console.log(parentID);
+
   const isValed = Name === "";
   const [touched, setTouched] = useState(false);
 
@@ -66,10 +65,11 @@ const AddTask = (props) => {
         </div>
         <div className="inline field">
           <input
-            className="ui checkbox"
+            className="ui checked checkbox"
             id="status"
             name="status"
             type="checkbox"
+            checked={status ? "checked" : ""}
             value={status}
             onChange={(event) => {
               setStatus(event.target.checked);

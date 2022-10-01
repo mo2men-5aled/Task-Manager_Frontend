@@ -9,7 +9,7 @@ const TaskUpdate = (taskID) => {
   const [status, setstatus] = useState("");
   const [description, setDescription] = useState("");
 
-  const parentID = taskID.match.params.id;
+  const [parentID, setParentID] = useState(taskID.match.params.id);
 
   useEffect(() => {
     http.get(`/${taskID.match.params.id}`).then((response) => {
@@ -28,6 +28,7 @@ const TaskUpdate = (taskID) => {
       description: description,
       completed: status,
     });
+    setParentID(task._id);
   };
 
   return (
@@ -85,7 +86,7 @@ const TaskUpdate = (taskID) => {
           </button>
         </form>
       </div>
-      <GetAll parentID={parentID} />
+      <GetAll parentID={taskID.match.params.id} />
     </div>
   );
 };

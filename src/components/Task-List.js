@@ -35,20 +35,24 @@ const GetAll = (props) => {
         if (task.parentID === props.parentID) {
           return (
             <div className="ui segment">
-              <Link to={`/${task._id}`} className="content">
+              <Link
+                to={`/${task._id}`}
+                className="content"
+                style={{ zIndex: "1" }}
+              >
                 <div className="header">
                   <span>{mark(task)}</span>
                   {taskNameRef.current}
 
-                  <div style={{ textAlign: "end" }}>
-                    <button
+                  <div style={{ textAlign: "end", zIndex: "2" }}>
+                    <Link
                       className="ui basic blue button"
                       onClick={() => {
                         deleteTask(task._id);
                       }}
                     >
                       Delete
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </Link>
