@@ -37,7 +37,7 @@ const GetAll = () => {
 
         return (
           <div className="ui segment">
-            <div className="content">
+            <Link to={`/${task._id}`} className="content">
               <div className="header">
                 <span>{mark(task)}</span>
                 {taskNameRef.current}
@@ -52,12 +52,9 @@ const GetAll = () => {
                   >
                     Delete
                   </Link>
-                  <Link className="ui basic black button" to={"/" + task._id}>
-                    Edit
-                  </Link>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         );
       })}
