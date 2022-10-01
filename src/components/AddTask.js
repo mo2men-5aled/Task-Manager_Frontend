@@ -4,13 +4,22 @@ const NewTask = (data) => {
   http.post("/", data);
 };
 
-const App = () => {
+const AddTask = () => {
   const [Name, setName] = useState("");
-  const [status, setStatus] = useState("false");
-  const fromValues = { name: Name, completed: status };
+  const [status, setStatus] = useState(false);
+  const [description, setDesc] = useState("");
+  const fromValues = {
+    name: Name,
+    completed: status,
+    description: description,
+  };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     NewTask(fromValues);
+    setName("");
+    setStatus("");
+    setDesc("");
   };
 
   const isValed = Name === "";
@@ -31,14 +40,24 @@ const App = () => {
             id="name"
             name="name"
             type="text"
-            onChange={(event) => setName(event.target.value)}
             value={Name}
+            onChange={(event) => setName(event.target.value)}
             onBlur={() => {
               if (isValed) {
               } else {
                 setTouched(true);
               }
             }}
+          />
+        </div>
+        <div className="field">
+          <label>Description</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            value={description}
+            onChange={(event) => setDesc(event.target.value)}
           />
         </div>
         <div className="inline field">
@@ -64,4 +83,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default AddTask;
