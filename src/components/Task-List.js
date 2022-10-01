@@ -3,10 +3,7 @@ import http from "../api/connection";
 import { Link } from "react-router-dom";
 import AddTask from "./AddTask";
 import { Popup } from "semantic-ui-react";
-
-const deleteTask = (id) => {
-  http.delete("/" + id);
-};
+import deleteTask from "./deleteTask";
 
 const mark = (task) => {
   if (task.completed) {
@@ -17,14 +14,10 @@ const mark = (task) => {
 const GetAll = () => {
   const [tasks, setTasks] = useState([]);
   const taskNameRef = useRef();
-
   useEffect(() => {
-    const fetchList = async () => {
-      const response = await http.get();
+    http.get().then((response) => {
       setTasks(response.data.tasks);
-      console.log(tasks);
-    };
-    fetchList();
+    });
   }, [tasks]);
 
   return (
