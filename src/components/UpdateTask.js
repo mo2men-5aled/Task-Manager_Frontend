@@ -27,7 +27,6 @@ const TaskUpdate = (taskID) => {
       name: name,
       description: description,
       completed: status,
-      parentID: parentID,
     });
   };
 

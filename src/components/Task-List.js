@@ -41,15 +41,14 @@ const GetAll = (props) => {
                   {taskNameRef.current}
 
                   <div style={{ textAlign: "end" }}>
-                    <Link
-                      to={`/${task._id}`}
+                    <button
                       className="ui basic blue button"
                       onClick={() => {
                         deleteTask(task._id);
                       }}
                     >
                       Delete
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </Link>

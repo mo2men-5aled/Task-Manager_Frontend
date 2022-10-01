@@ -21,12 +21,11 @@ const AddTask = (props) => {
     event.preventDefault();
     NewTask(fromValues);
     setName("");
-    setStatus(false);
+    setStatus("");
     setDesc("");
-    setParentID(parentID);
+    console.log(props.parentID);
   };
-  console.log(status);
-
+  console.log(parentID);
   const isValed = Name === "";
   const [touched, setTouched] = useState(false);
 
@@ -72,7 +71,12 @@ const AddTask = (props) => {
             name="status"
             type="checkbox"
             value={status}
-            onChange={(event) => setStatus(event.target.checked)}
+            onChange={(event) => {
+              setStatus(event.target.checked);
+              if (props.parentID) {
+                setParentID(props.parentID);
+              }
+            }}
           />
           <label>Completed</label>
         </div>
