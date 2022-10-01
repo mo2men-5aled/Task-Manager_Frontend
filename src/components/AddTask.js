@@ -4,14 +4,16 @@ const NewTask = (data) => {
   http.post("/", data);
 };
 
-const AddTask = () => {
+const AddTask = (props) => {
   const [Name, setName] = useState("");
   const [status, setStatus] = useState(false);
   const [description, setDesc] = useState("");
+
   const fromValues = {
     name: Name,
     completed: status,
     description: description,
+    parentID: props.parentID,
   };
 
   const handleSubmit = (event) => {
