@@ -34,6 +34,7 @@ const AddTask = (props) => {
 
   return (
     <div className="ui segment" style={{ marginTop: "20px" }}>
+      <div class="ui top attached label">Craete New Task</div>
       <form
         className="ui form"
         onSubmit={handleSubmit}
