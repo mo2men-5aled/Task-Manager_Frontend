@@ -23,7 +23,7 @@ const GetAll = (props) => {
 
   useEffect(() => {
     getData(setTasks);
-  }, [1]);
+  }, [tasks]);
 
   EventEmitter.subscribe(["submited"], () => {
     getData(setTasks);

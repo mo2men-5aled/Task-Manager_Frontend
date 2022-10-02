@@ -10,12 +10,13 @@ const AddTask = (props) => {
   const [Name, setName] = useState("");
   const [status, setStatus] = useState(false);
   const [description, setDesc] = useState("");
-  const [parentID, setParentID] = useState(props.parentID);
+  const parentID = props.parentID;
   const [showForm, setShowForm] = useState(false);
 
   const ShowForm = () => {
     setShowForm(!showForm);
   };
+  console.log(props.parentID);
 
   const fromValues = {
     name: Name,
@@ -55,7 +56,7 @@ const AddTask = (props) => {
           visible={showForm}
         >
           <div>
-            <div class="ui top attached label">Craete New Task</div>
+            <div class="ui top attached label">Create New Task</div>
             <form
               className="ui form"
               onSubmit={handleSubmit}
@@ -99,9 +100,6 @@ const AddTask = (props) => {
                   value={status}
                   onChange={(event) => {
                     setStatus(event.target.checked);
-                    if (props.parentID) {
-                      setParentID(props.parentID);
-                    }
                   }}
                 />
                 <label>Completed</label>

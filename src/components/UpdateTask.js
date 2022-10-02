@@ -17,6 +17,7 @@ const TaskUpdate = (taskID) => {
       setName(task.name);
       setDescription(task.description);
       setstatus(task.completed);
+      setParentID(taskID.match.params.id);
     });
   }, [task.description, task.completed, task.name, taskID.match.params.id]);
 
@@ -28,15 +29,13 @@ const TaskUpdate = (taskID) => {
       description: description,
       completed: status,
     });
-    setParentID(task._id);
-    taskID.history.goBack();
+    taskID.history.push(`/${task._id}`);
   };
 
   return (
     <div>
       <AddTask parentID={parentID} />
       <div className="ui segment" style={{ marginTop: "20px" }}>
-        <div class="ui top attached label">Edit Task "{task.name}"</div>
         <form
           onSubmit={handleSubmit}
           className="ui form"
