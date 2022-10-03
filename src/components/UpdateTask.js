@@ -1,41 +1,39 @@
 import React, { useEffect, useState } from "react";
 import http from "../api/connection";
-import AddTask from "./AddTask";
-import GetAll from "./Task-List";
+// import _ from "lodash";
 
-const TaskUpdate = (taskID) => {
-  const [task, setTask] = useState("");
+const TaskUpdate = (props) => {
+  const [task, setTask] = useState({});
   const [name, setName] = useState("");
   const [status, setstatus] = useState("");
   const [description, setDescription] = useState("");
 
-  const [parentID, setParentID] = useState(taskID.match.params.id);
-
   useEffect(() => {
-    http.get(`/${taskID.match.params.id}`).then((response) => {
+    //on page load
+    http.get(`/${props.parentID}`).then((response) => {
       setTask(response.data.task);
-      setName(task.name);
-      setDescription(task.description);
-      setstatus(task.completed);
-      setParentID(taskID.match.params.id);
+      setName(response.data.task.name);
+      setDescription(response.data.task.description);
+      setstatus(response.data.task.completed);
     });
-  }, [task.description, task.completed, task.name, taskID.match.params.id]);
+  }, [props.parentID]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    http.patch(`/${taskID.match.params.id}`, {
+    http.patch(`/${props.parentID}`, {
       ...task,
       name: name,
       description: description,
       completed: status,
     });
-    taskID.history.push(`/${task._id}`);
+    props.history.push(`/${task._id}`);
+    // EventEmitter.emit("submited");
   };
 
   return (
-    <div>
-      <AddTask parentID={parentID} />
+    <React.Fragment>
       <div className="ui segment" style={{ marginTop: "20px" }}>
+        <div class="ui top attached label">Update Task</div>
         <form
           onSubmit={handleSubmit}
           className="ui form"
@@ -83,12 +81,11 @@ const TaskUpdate = (taskID) => {
           </div>
 
           <button className={`ui red button`} type="submit">
-            Submit
+            Edit
           </button>
         </form>
       </div>
-      <GetAll parentID={taskID.match.params.id} />
-    </div>
+    </React.Fragment>
   );
 };
 

@@ -1,14 +1,15 @@
 import { Route } from "react-router-dom";
-import GetAll from "./components/Task-List";
 import TaskUpdate from "./components/UpdateTask";
-import AddTask from "./components/AddTask";
+
+import Home from "./components/Routes/Home";
+import UpdateRoute from "./components/Routes/UpdateRoute";
+
 function App() {
   return (
     <div className="ui container">
       <div>
-        <Route exact path="/" component={AddTask} />
-        <Route exact path="/" component={GetAll} />
-        <Route exact path="/:id" component={TaskUpdate} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/:id" component={UpdateRoute} />
       </div>
     </div>
   );

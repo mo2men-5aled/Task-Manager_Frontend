@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import http from "../api/connection";
-import EventEmitter from "reactjs-eventemitter";
 
-const NewTask = (data) => {
-  http.post("/", data);
+const NewTask = (data, props) => {
+  http.post("/", data).then((res) => {
+    if (res.status === 201) props.setTriggerCreate(true);
+  });
 };
 
 const AddTask = (props) => {
   const [Name, setName] = useState("");
-  const [status, setStatus] = useState(false);
   const [description, setDesc] = useState("");
+  const [status, setStatus] = useState(false);
   const parentID = props.parentID;
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(false); // flag of shoing form
 
   const ShowForm = () => {
     setShowForm(!showForm);
   };
-  console.log(props.parentID);
 
   const fromValues = {
     name: Name,
@@ -27,12 +27,10 @@ const AddTask = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    NewTask(fromValues);
+    NewTask(fromValues, props);
     setName("");
     setStatus(false);
     setDesc("");
-
-    EventEmitter.emit("submited");
   };
 
   const isValed = Name === "";
@@ -43,9 +41,7 @@ const AddTask = (props) => {
       <button
         style={{ marginTop: "20px" }}
         className="fluid ui primary button"
-        onClick={() => {
-          ShowForm();
-        }}
+        onClick={ShowForm}
       >
         Create Task
       </button>
@@ -109,7 +105,7 @@ const AddTask = (props) => {
                 className={`ui basic red ${touched ? "" : "disabled"} button`}
                 type="submit"
               >
-                Submit
+                Create
               </button>
             </form>
           </div>

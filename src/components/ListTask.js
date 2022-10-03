@@ -2,14 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import http from "../api/connection";
 import { Link } from "react-router-dom";
 import { Popup } from "semantic-ui-react";
-import deleteTask from "./deleteTask";
-import EventEmitter from "reactjs-eventemitter";
-
-const getData = async (setTasks) => {
-  http.get().then((response) => {
-    setTasks(response.data.tasks);
-  });
-};
+import DeleteTask from "./DeleteTask";
 
 const mark = (task) => {
   if (task.completed) {
@@ -17,17 +10,17 @@ const mark = (task) => {
   }
 };
 
-const GetAll = (props) => {
+const ListTask = (props) => {
   const [tasks, setTasks] = useState([]);
   const taskNameRef = useRef();
 
   useEffect(() => {
-    getData(setTasks);
-  }, [tasks]);
-
-  EventEmitter.subscribe(["submited"], () => {
-    getData(setTasks);
-  });
+    if (!props.TriggerCreate)
+      http.get().then((response) => {
+        setTasks(response.data.tasks);
+      });
+    if (props.setTriggerCreate !== false) props.setTriggerCreate(false);
+  }, [props.TriggerCreate]);
 
   return (
     <div style={{ marginTop: "20px" }}>
@@ -42,8 +35,9 @@ const GetAll = (props) => {
         ) : (
           popupname
         );
+        let x;
         if (task.parentID === props.parentID) {
-          return (
+          x = (
             <div className="ui segment">
               <Link
                 to={`/${task._id}`}
@@ -53,26 +47,16 @@ const GetAll = (props) => {
                 <div className="header">
                   <span>{mark(task)}</span>
                   {taskNameRef.current}
-
-                  <div style={{ textAlign: "end", zIndex: "2" }}>
-                    <Link
-                      className="ui basic blue button"
-                      onClick={() => {
-                        deleteTask(task._id);
-                        EventEmitter.emit("submited");
-                      }}
-                    >
-                      Delete
-                    </Link>
-                  </div>
+                  <DeleteTask TaskId={task._id} {...props} />
                 </div>
               </Link>
             </div>
           );
         }
+        return x;
       })}
     </div>
   );
 };
 
-export default GetAll;
+export default ListTask;
