@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import http from "../api/connection";
 // import _ from "lodash";
 
@@ -7,7 +8,7 @@ const TaskUpdate = (props) => {
   const [name, setName] = useState("");
   const [status, setstatus] = useState("");
   const [description, setDescription] = useState("");
-  const [parentID, setParentId] = useState(props.parentID);
+  const history = useHistory();
 
   const [showForm, setShowForm] = useState(false);
 
@@ -18,18 +19,29 @@ const TaskUpdate = (props) => {
       setName(response.data.task.name);
       setDescription(response.data.task.description);
       setstatus(response.data.task.completed);
-      setParentId(props.parentID);
     });
   }, [props.parentID]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    http.patch(`/${props.parentID}`, {
-      ...task,
-      name: name,
-      description: description,
-      completed: status,
-    });
+    http
+      .patch(`/${props.parentID}`, {
+        ...task,
+        name: name,
+        description: description,
+        completed: status,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          if (!task.parentID) {
+            history.push("/");
+            props.setTriggerCreate(true);
+          } else {
+            history.push(`/${task.parentID}`);
+            props.setTriggerCreate(true);
+          }
+        }
+      });
   };
 
   return (
@@ -43,12 +55,11 @@ const TaskUpdate = (props) => {
         >
           Update Task
         </div>
+
         {showForm && (
           <form onSubmit={handleSubmit} className="ui form">
             <span className="ui transparent fluid input">
-              <strong>
-                <label>Name: </label>
-              </strong>
+              <label className="ui horizontal label">Name</label>
               <input
                 onChange={(e) => {
                   setName(e.target.value);
@@ -59,10 +70,12 @@ const TaskUpdate = (props) => {
                 value={name}
               />
             </span>
-            <div className="ui transparent fluid input">
-              <strong>
-                <label>Descriptions: </label>
-              </strong>
+            <div
+              className="ui transparent fluid input"
+              style={{ margin: "5px 0px 5px " }}
+            >
+              <label className="ui horizontal label">Descriptions</label>
+
               <input
                 onChange={(e) => {
                   setDescription(e.target.value);

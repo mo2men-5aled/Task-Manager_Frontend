@@ -23,32 +23,31 @@ const ListTask = (props) => {
 
   return (
     <div style={{ marginTop: "20px" }}>
-      {tasks.map((task) => {
-        let popupname = <span>{task.name}</span>;
-        taskNameRef.current = task.description ? (
-          <Popup
-            position="right center"
-            content={`${task.description}`}
-            trigger={popupname}
-          />
-        ) : (
-          popupname
-        );
-
-        if (task.parentID === props.parentID) {
+      {tasks
+        .filter((task) => task.parentID === props.parentID)
+        .map((filterdTask) => {
+          let popupname = <span>{filterdTask.name}</span>;
+          taskNameRef.current = filterdTask.description ? (
+            <Popup
+              position="right center"
+              content={`${filterdTask.description}`}
+              trigger={popupname}
+            />
+          ) : (
+            popupname
+          );
           return (
-            <div className="ui segment" key={task._id}>
-              <Link to={`/${task._id}`} className="content">
+            <div className="ui segment" key={filterdTask._id}>
+              <Link to={`/${filterdTask._id}`} className="content">
                 <div className="header">
-                  <span>{mark(task)}</span>
+                  <span>{mark(filterdTask)}</span>
                   {taskNameRef.current}
                 </div>
               </Link>
-              <DeleteTask TaskId={task._id} {...props} />
+              <DeleteTask TaskId={filterdTask._id} {...props} />
             </div>
           );
-        }
-      })}
+        })}
     </div>
   );
 };
