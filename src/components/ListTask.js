@@ -34,20 +34,17 @@ const ListTask = (props) => {
         ) : (
           popupname
         );
+
         if (task.parentID === props.parentID) {
           return (
             <div className="ui segment" key={task._id}>
-              <Link
-                to={"/" + task._id}
-                className="content"
-                style={{ zIndex: "1" }}
-              >
+              <Link to={`/${task._id}`} className="content">
                 <div className="header">
                   <span>{mark(task)}</span>
                   {taskNameRef.current}
                 </div>
-                <DeleteTask TaskId={task._id} {...props} />
               </Link>
+              <DeleteTask TaskId={task._id} {...props} />
             </div>
           );
         }
