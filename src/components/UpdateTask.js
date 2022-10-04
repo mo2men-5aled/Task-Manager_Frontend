@@ -53,7 +53,12 @@ const TaskUpdate = (props) => {
             setShowForm(!showForm); //false - true
           }}
         >
-          Update Task
+          {showForm ? (
+            <i className="caret down icon"></i>
+          ) : (
+            <i className="caret right icon"></i>
+          )}
+          <span>Update Task</span>
         </div>
 
         {showForm && (
