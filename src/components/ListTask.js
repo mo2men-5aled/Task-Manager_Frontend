@@ -9,7 +9,6 @@ const mark = (task) => {
     return <i className="check icon" />;
   }
 };
-
 const ListTask = (props) => {
   const [tasks, setTasks] = useState([]);
   const taskNameRef = useRef();
@@ -35,25 +34,23 @@ const ListTask = (props) => {
         ) : (
           popupname
         );
-        let x;
         if (task.parentID === props.parentID) {
-          x = (
-            <div className="ui segment">
+          return (
+            <div className="ui segment" key={task._id}>
               <Link
-                to={`/${task._id}`}
+                to={"/" + task._id}
                 className="content"
                 style={{ zIndex: "1" }}
               >
                 <div className="header">
                   <span>{mark(task)}</span>
                   {taskNameRef.current}
-                  <DeleteTask TaskId={task._id} {...props} />
                 </div>
+                <DeleteTask TaskId={task._id} {...props} />
               </Link>
             </div>
           );
         }
-        return x;
       })}
     </div>
   );

@@ -3,7 +3,9 @@ import http from "../api/connection";
 
 const NewTask = (data, props) => {
   http.post("/", data).then((res) => {
-    if (res.status === 201) props.setTriggerCreate(true);
+    if (res.status === 201) {
+      props.setTriggerCreate(true);
+    }
   });
 };
 
@@ -12,12 +14,11 @@ const AddTask = (props) => {
   const [description, setDesc] = useState("");
   const [status, setStatus] = useState(false);
   const parentID = props.parentID;
-  const [showForm, setShowForm] = useState(false); // flag of shoing form
 
-  const ShowForm = () => {
-    setShowForm(!showForm);
-  };
+  const [showForm, setShowForm] = useState(false);
+  const [showButton, setShowButton] = useState(true);
 
+  //object sent to the database
   const fromValues = {
     name: Name,
     completed: status,
@@ -25,6 +26,7 @@ const AddTask = (props) => {
     parentID: parentID,
   };
 
+  //on form submit
   const handleSubmit = (event) => {
     event.preventDefault();
     NewTask(fromValues, props);
@@ -38,31 +40,34 @@ const AddTask = (props) => {
 
   return (
     <div>
-      <button
-        style={{ marginTop: "20px" }}
-        className="fluid ui primary button"
-        onClick={ShowForm}
-      >
-        Create Task
-      </button>
-      {showForm && (
-        <div
-          className="ui segment"
+      {showButton && (
+        <button
           style={{ marginTop: "20px" }}
-          visible={showForm}
+          className="fluid ui primary button"
+          onClick={() => {
+            setShowForm(!showForm); //false - true
+            setShowButton(!showButton); //true - false
+          }}
         >
+          Create Task
+        </button>
+      )}
+      {showForm && (
+        <div className="ui segment" style={{ marginTop: "20px" }}>
           <div>
-            <div class="ui top attached label">Create New Task</div>
-            <form
-              className="ui form"
-              onSubmit={handleSubmit}
-              style={{
-                padding: "30px",
+            <div
+              className="ui top attached label"
+              onClick={() => {
+                setShowForm(!showForm); //false - true
+                setShowButton(!showButton); //true - false
               }}
             >
+              Create New Task
+            </div>
+            <form className="ui form" onSubmit={handleSubmit}>
               <div className="field">
-                <label>Name</label>
                 <input
+                  placeholder="Type Task Name"
                   id="name"
                   name="name"
                   type="text"
@@ -77,8 +82,8 @@ const AddTask = (props) => {
                 />
               </div>
               <div className="field">
-                <label>Description</label>
                 <input
+                  placeholder="Type Task description"
                   id="name"
                   name="name"
                   type="text"

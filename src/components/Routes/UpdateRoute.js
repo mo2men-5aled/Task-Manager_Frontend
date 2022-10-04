@@ -10,11 +10,7 @@ const UpdateRoute = (Task) => {
 
   return (
     <React.Fragment>
-      <AddTask
-        parentID={parentID}
-        TriggerCreate={TriggerCreate}
-        setTriggerCreate={setTriggerCreate}
-      />
+      <AddTask parentID={parentID} setTriggerCreate={setTriggerCreate} />
       <TaskUpdate parentID={parentID} />
       <ListTask
         parentID={parentID}

@@ -7,6 +7,9 @@ const TaskUpdate = (props) => {
   const [name, setName] = useState("");
   const [status, setstatus] = useState("");
   const [description, setDescription] = useState("");
+  const [parentID, setParentId] = useState(props.parentID);
+
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     //on page load
@@ -15,6 +18,7 @@ const TaskUpdate = (props) => {
       setName(response.data.task.name);
       setDescription(response.data.task.description);
       setstatus(response.data.task.completed);
+      setParentId(props.parentID);
     });
   }, [props.parentID]);
 
@@ -26,64 +30,69 @@ const TaskUpdate = (props) => {
       description: description,
       completed: status,
     });
-    props.history.push(`/${task._id}`);
-    // EventEmitter.emit("submited");
   };
 
   return (
     <React.Fragment>
       <div className="ui segment" style={{ marginTop: "20px" }}>
-        <div class="ui top attached label">Update Task</div>
-        <form
-          onSubmit={handleSubmit}
-          className="ui form"
-          style={{
-            padding: "30px",
+        <div
+          className="ui top attached label"
+          onClick={() => {
+            setShowForm(!showForm); //false - true
           }}
         >
-          <div className="field">
-            <label>Name</label>
-            <input
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-              id="name"
-              name="name"
-              type="text"
-              value={name}
-            />
-          </div>
-          <div className="field">
-            <label>Descriptions</label>
-            <input
-              onChange={(e) => {
-                setDescription(e.target.value);
-              }}
-              id="name"
-              name="name"
-              type="text"
-              value={description}
-            />
-          </div>
-          <div className="inline field">
-            <div className="ui checked checkbox">
+          Update Task
+        </div>
+        {showForm && (
+          <form onSubmit={handleSubmit} className="ui form">
+            <span className="ui transparent fluid input">
+              <strong>
+                <label>Name: </label>
+              </strong>
               <input
                 onChange={(e) => {
-                  setstatus(e.target.checked);
+                  setName(e.target.value);
                 }}
-                id="status"
-                name="status"
-                type="checkbox"
-                checked={`${status ? "checked" : ""}`}
-              ></input>
-              <label>Completed</label>
+                id="name"
+                name="name"
+                type="text"
+                value={name}
+              />
+            </span>
+            <div className="ui transparent fluid input">
+              <strong>
+                <label>Descriptions: </label>
+              </strong>
+              <input
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+                id="name"
+                name="name"
+                type="text"
+                value={description}
+              />
             </div>
-          </div>
+            <div className="inline field">
+              <div className="ui checked checkbox">
+                <input
+                  onChange={(e) => {
+                    setstatus(e.target.checked);
+                  }}
+                  id="status"
+                  name="status"
+                  type="checkbox"
+                  checked={`${status ? "checked" : ""}`}
+                ></input>
+                <label>Completed</label>
+              </div>
+            </div>
 
-          <button className={`ui red button`} type="submit">
-            Edit
-          </button>
-        </form>
+            <button className={`ui red button`} type="submit">
+              Edit
+            </button>
+          </form>
+        )}
       </div>
     </React.Fragment>
   );
