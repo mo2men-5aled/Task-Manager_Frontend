@@ -33,13 +33,8 @@ const TaskUpdate = (props) => {
       })
       .then((res) => {
         if (res.status === 200) {
-          if (!task.parentID) {
-            history.push("/");
-            props.setTriggerCreate(true);
-          } else {
-            history.push(`/${task.parentID}`);
-            props.setTriggerCreate(true);
-          }
+          history.goBack();
+          props.setTriggerCreate(true);
         }
       });
   };
