@@ -4,8 +4,4 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 
 const root = createRoot(document.querySelector("#root"));
-root.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-);
+root.render(<App />);
