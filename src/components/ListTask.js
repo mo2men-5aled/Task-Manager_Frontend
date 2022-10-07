@@ -15,7 +15,7 @@ const ListTask = (props) => {
 
   useEffect(() => {
     if (!props.TriggerCreate)
-      http.get().then((response) => {
+      http.get(`?userID=${props.userID}`).then((response) => {
         setTasks(response.data.tasks);
       });
     if (props.setTriggerCreate !== false) props.setTriggerCreate(false);
@@ -38,7 +38,10 @@ const ListTask = (props) => {
           );
           return (
             <div className="ui segment" key={filterdTask._id}>
-              <Link to={`/${filterdTask._id}`} className="content">
+              <Link
+                to={`/${props.userID}/${filterdTask._id}`}
+                className="content"
+              >
                 <div className="header">
                   <span>{mark(filterdTask)}</span>
                   {taskNameRef.current}

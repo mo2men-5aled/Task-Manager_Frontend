@@ -24,6 +24,7 @@ const AddTask = (props) => {
     completed: status,
     description: description,
     parentID: parentID,
+    user_id: props.userID,
   };
 
   //on form submit
